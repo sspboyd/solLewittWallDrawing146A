@@ -14,6 +14,21 @@ float wallW = 152;
 //37.5x83 - door size in inches
 // 1.64 x 1
 
+// add lerp lines to this
+// case 11???
+/*
+pushMatrix();
+translate(boxW/2, boxH/2);
+rotate(HALF_PI);
+for(int i = 0; i < 8; i++) {
+  lerp(i, )
+    
+}
+
+
+
+
+*/
 
 //Declare Globals
 int rSn; // randomSeed number. put into var so can be saved in file name. defaults to 47
@@ -32,6 +47,10 @@ int rows, cols;
 color groundClr, figureClr;
 int tileMargin;
 int boxH, boxW;
+int horizDashCount = 7;
+int angledDashCount = 13;
+float lineLen, lineBuff;
+float angLineLen, angLineBuff;
 
 
 /*////////////////////////////////////////
@@ -57,6 +76,13 @@ void setup() {
 
   boxW = 200;
   boxH = boxW;
+
+  // dashed Line vars
+  lineLen = boxW/(horizDashCount + ((horizDashCount-1) * 0.25));
+  lineBuff = lineLen * 0.25;
+  angLineLen = sqrt(2*pow(boxW,2))/(angledDashCount + ((angledDashCount-1) * 0.25));
+  angLineBuff = angLineLen * 0.25;
+
 
   // tileMargin = 25;
 
@@ -98,10 +124,10 @@ void renderWall(){
         strokeWeight(3);
 
         for (int k = 0; k < 2; k++) {
-          int tileId = int(random(0,12));
+          int tileId = int(random(0,14));
           if(k==0) tileId1=tileId;
           for (int l = 0; l < 10; l++) {
-            if(k==1 && tileId1 == tileId) tileId = int(random(0,12));          
+            if(k==1 && tileId1 == tileId) tileId = int(random(0,14));
           }
 
           println("tileId: "+tileId);
@@ -170,6 +196,28 @@ void renderWall(){
               arc(arcOrigX, arcOrigY, boxW * 2, boxH * 2, leftArc, rightArc);
             popMatrix();
           break;
+          case 12: // horiz dashed line
+            for(int n=0; n < horizDashCount; n++){
+              // println("n: "+n);
+              float lineX = lerp(0, (boxW+lineBuff), n/(horizDashCount*1.0));
+              // println("lineX: "+lineX);
+              line(lineX, boxW/2, lineX+lineLen, boxW/2);
+            }
+          break;
+          case 13: // horiz dashed line
+          pushMatrix();
+          translate(boxW/2, boxH/2);
+          rotate(HALF_PI);
+          translate(-boxW/2, -boxH/2);
+
+            for(int n=0; n < horizDashCount; n++){
+              // println("n: "+n);
+              float lineX = lerp(0, (boxW+lineBuff), n/(horizDashCount*1.0));
+              // println("lineX: "+lineX);
+              line(lineX, boxW/2, lineX+lineLen, boxW/2);
+            }
+            popMatrix();
+          break;
           }
         }
       popMatrix();
@@ -179,8 +227,8 @@ void renderWall(){
   noStroke();
   float doorW = 37.5/wallW*width;
   float doorH = 87.0/wallH*height;
-  rect(6, height, doorW, -doorH);
-  rect(0, height, width, -4.0/100*height);
+  // rect(6, height, doorW, -doorH);
+  // rect(0, height, width, -4.0/100*height);
 }
 
 int newTileId(int lower, int upper){ // this does nothing right now
