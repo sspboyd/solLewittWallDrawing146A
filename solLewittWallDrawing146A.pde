@@ -51,6 +51,9 @@ int horizDashCount = 7;
 int angledDashCount = 13;
 float lineLen, lineBuff;
 float angLineLen, angLineBuff;
+int angDW; // was -> totalAngledLineLen
+
+PGraphics angDashes;
 
 
 /*////////////////////////////////////////
@@ -80,9 +83,23 @@ void setup() {
   // dashed Line vars
   lineLen = boxW/(horizDashCount + ((horizDashCount-1) * 0.25));
   lineBuff = lineLen * 0.25;
-  angLineLen = sqrt(2*pow(boxW,2))/(angledDashCount + ((angledDashCount-1) * 0.25));
+  angDW = int(sqrt(pow(boxW,2) + pow(boxH,2)));
+  angDashes = createGraphics(angDW, angDW);
+  angLineLen = angDW/(angledDashCount + ((angledDashCount-1) * 0.25));
   angLineBuff = angLineLen * 0.25;
 
+  angDashes.beginDraw();
+  angDashes.background(0,0);
+  angDashes.stroke(252,252,240);
+  angDashes.strokeWeight(3);
+  // angDashes.strokeWeight(2);
+  for (int i=0; i<angledDashCount+1; i++) {
+    float lineX = lerp(0, (angDW+angLineBuff), i/(angledDashCount*1.0));
+    angDashes.line(lineX, angDW/2, lineX+angLineLen, angDW/2);
+  }
+  angDashes.endDraw();
+
+  
 
   // tileMargin = 25;
 
@@ -119,15 +136,15 @@ void renderWall(){
       tileY = j*boxH;
       pushMatrix();
         translate(tileX, tileY);
-        strokeWeight(.1);
+        // strokeWeight(.1);
         // rect(0, 0, boxW, boxH);
         strokeWeight(3);
 
         for (int k = 0; k < 2; k++) {
-          int tileId = int(random(0,14));
+          int tileId = int(random(0,16));
           if(k==0) tileId1=tileId;
           for (int l = 0; l < 10; l++) {
-            if(k==1 && tileId1 == tileId) tileId = int(random(0,14));
+            if(k==1 && tileId1 == tileId) tileId = int(random(0,16));
           }
 
           println("tileId: "+tileId);
@@ -204,7 +221,7 @@ void renderWall(){
               line(lineX, boxW/2, lineX+lineLen, boxW/2);
             }
           break;
-          case 13: // horiz dashed line
+          case 13: // vert dashed line
           pushMatrix();
           translate(boxW/2, boxH/2);
           rotate(HALF_PI);
@@ -217,6 +234,22 @@ void renderWall(){
               line(lineX, boxW/2, lineX+lineLen, boxW/2);
             }
             popMatrix();
+          break;
+          case 14: // angled (/) dashed line
+            pushMatrix();
+            translate(boxW/2,boxH/2);
+            rotate(HALF_PI/2);
+            image(angDashes, -angDW/2, -angDW/2);
+            popMatrix();
+
+          break;
+          case 15: // angled (/) dashed line
+            pushMatrix();
+            translate(boxW/2,boxH/2);
+            rotate(HALF_PI + PI/4);
+            image(angDashes, -angDW/2, -angDW/2);
+            popMatrix();
+
           break;
           }
         }
