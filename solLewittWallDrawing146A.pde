@@ -57,6 +57,19 @@ PGraphics angDashes;
 
 
 /*////////////////////////////////////////
+ SETTINGS
+ ////////////////////////////////////////*/
+
+void settings(){
+    if (PDFOUT) {
+    size(800, 450, PDF, generateSaveImgFileName(".pdf"));
+  } else {
+    // size(1200, 600); // quarter page size
+    size(1231, 725); // quarter page size
+  }
+}
+
+/*////////////////////////////////////////
  SETUP
  ////////////////////////////////////////*/
 
@@ -64,13 +77,6 @@ void setup() {
   background(6, 83, 203);
   stroke(252, 252, 240);
   strokeWeight(3);
-
-  if (PDFOUT) {
-    size(800, 450, PDF, generateSaveImgFileName(".pdf"));
-  } else {
-    // size(1200, 600); // quarter page size
-    size(1231, 725); // quarter page size
-  }
 
 //   noLoop();
 
@@ -298,7 +304,8 @@ void screenCap(String fileType) {
 }
 
 String getSketchName() {
-  String[] path = split(sketchPath, "/");
+  String spath = sketchPath();
+  String[] path = split(spath, "/");
   return path[path.length-1];
 }
 
