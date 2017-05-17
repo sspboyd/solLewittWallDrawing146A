@@ -80,11 +80,27 @@ void setup() {
 
 //   noLoop();
 
-  rows = 4;
-  cols = 6;
+  rows = 2;
+  cols = 5;
+  setGridVars();
 
-  boxW = 200;
-  boxH = boxW;
+  // tileMargin = 25;
+
+  rSn = 47; // 29, 18;
+  // randomSeed(rSn);
+
+  mainTitleF = createFont("Helvetica", 18);  //requires a font file in the data folder?
+
+  println("setup done: " + nf(millis() / 1000.0, 1, 2));
+
+  renderWall();
+}
+
+void setGridVars(){
+  // boxW = 200;
+  boxH = int( (wallH/rows) * (height/wallH) ); // box height in inches then converted to pixels
+  println("boxH = " + boxH);
+  boxW = boxH;
 
   // dashed Line vars
   lineLen = boxW/(horizDashCount + ((horizDashCount-1) * 0.25));
@@ -105,18 +121,7 @@ void setup() {
   }
   angDashes.endDraw();
 
-  
 
-  // tileMargin = 25;
-
-  rSn = 47; // 29, 18;
-  // randomSeed(rSn);
-
-  mainTitleF = createFont("Helvetica", 18);  //requires a font file in the data folder?
-
-  println("setup done: " + nf(millis() / 1000.0, 1, 2));
-
-  renderWall();
 }
 
 
@@ -139,13 +144,14 @@ void renderWall(){
     tileX = i*boxW;
 
     for (int j = 0; j < rows; j++) {
+      println("RxC: "+ i + 'x' + j);
       tileY = j*boxH;
       pushMatrix();
         translate(tileX, tileY);
         // strokeWeight(.1);
         // rect(0, 0, boxW, boxH);
+        
         strokeWeight(3);
-
         for (int k = 0; k < 2; k++) {
           int tileId = int(random(0,16));
           if(k==0) tileId1=tileId;
@@ -266,8 +272,8 @@ void renderWall(){
   noStroke();
   float doorW = 37.5/wallW*width;
   float doorH = 87.0/wallH*height;
-  // rect(6, height, doorW, -doorH);
-  // rect(0, height, width, -4.0/100*height);
+  rect(6, height, doorW, -doorH);
+  rect(0, height, width, -4.0/100*height);
 }
 
 int newTileId(int lower, int upper){ // this does nothing right now
@@ -281,6 +287,19 @@ void keyPressed() {
   if (key == 'S') screenCap(".tif");
   if (key == 'u') renderWall();
 
+  if (key == CODED) {
+    if (keyCode == UP) {
+      rows++;
+    } else if (keyCode == DOWN) {
+      rows--;
+    } else if (keyCode == LEFT) {
+      cols--;
+    } else if (keyCode == RIGHT) {
+      cols++;
+    }
+    setGridVars();
+    renderWall();
+  }
 }
 
 void mousePressed() {
