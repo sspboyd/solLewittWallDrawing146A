@@ -1,6 +1,10 @@
 // Attempting to recreate Sol Lewitt's Wall Drawing 146A
 // http://www.massmoca.org/lewitt/walldrawing.php?id=146A
 
+// Wall Drawing #146 (1972)
+// All two-part combinations of blue arcs from corners 
+// and sides, and blue straight, not straight, and broken 
+// lines. 
 
 
 // wall for sol
