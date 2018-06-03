@@ -7,7 +7,7 @@
 // 152 x 100
 // 150 x 90
 // boxH = 92/3
-float wallH = 97;
+float wallH = 96.75;
 float wallW = 152;
 
 
@@ -80,8 +80,8 @@ void setup() {
 
 //   noLoop();
 
-  rows = 2;
-  cols = 5;
+  rows = 3;
+  cols = 7;
   setGridVars();
 
   // tileMargin = 25;
@@ -99,7 +99,7 @@ void setup() {
 void setGridVars(){
   // boxW = 200;
   boxH = int( (wallH/rows) * (height/wallH) ); // box height in inches then converted to pixels
-  println("boxH = " + boxH);
+  // println("boxH = " + boxH);
   boxW = boxH;
 
   // dashed Line vars
@@ -144,7 +144,7 @@ void renderWall(){
     tileX = i*boxW;
 
     for (int j = 0; j < rows; j++) {
-      println("RxC: "+ i + 'x' + j);
+      // println("RxC: "+ i + 'x' + j);
       tileY = j*boxH;
       pushMatrix();
         translate(tileX, tileY);
@@ -273,7 +273,12 @@ void renderWall(){
   float doorW = 37.5/wallW*width;
   float doorH = 87.0/wallH*height;
   rect(6, height, doorW, -doorH);
-  rect(0, height, width, -4.0/100*height);
+  // rect(0, height, width, -4.0/100*height);
+
+  println("Rows: "+rows + ". Cols: "+cols);
+  println("boxH in inches: "+ wallH/rows);
+
+
 }
 
 int newTileId(int lower, int upper){ // this does nothing right now
@@ -288,17 +293,24 @@ void keyPressed() {
   if (key == 'u') renderWall();
 
   if (key == CODED) {
+    boolean updateWall = false;
     if (keyCode == UP) {
       rows++;
+      updateWall = true;
     } else if (keyCode == DOWN) {
-      rows--;
+      if(rows>0) rows--;
+      updateWall = true;
     } else if (keyCode == LEFT) {
-      cols--;
+      if (cols>0) cols--;
+      updateWall = true;
     } else if (keyCode == RIGHT) {
       cols++;
+      updateWall = true;
     }
-    setGridVars();
-    renderWall();
+    if(updateWall){
+      setGridVars();
+      renderWall();
+    }
   }
 }
 
