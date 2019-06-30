@@ -38,3 +38,4 @@ srcFiles/
 *.TIFF
 *.png
 *.PNG
+.vscode/
