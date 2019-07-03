@@ -5,16 +5,10 @@
 // http://www.massmoca.org/lewitt/walldrawing.php?id=146A
 
 // Keyboard UI
-// "S" = screencap to .jpg
 // "u" = refresh wall with new drawing
 // Arrow keys up/down will add/remove rows
 // Arrow keys left/right will remove/add columns
-
-
-//Declare Globals
-final float PHI = 0.618033989;
-int rSn; // randomSeed number. put into var so can be saved in file name. defaults to 47
-boolean PDFOUT = false; // controls if the wall output will be saved to a PDF
+// "S" = screencap to .jpg
 
 // Physical Room Dimensions
 float wallH = 96.75;
@@ -38,32 +32,15 @@ int angDW; // was -> totalAngledLineLen
 
 
 /*////////////////////////////////////////
- SETTINGS
- ////////////////////////////////////////*/
-
-void settings() {
-  if (PDFOUT) {
-    size(800, 450, PDF, generateSaveImgFileName(".pdf"));
-  } else {
-    // size(1200, 600); // quarter page size
-    size(1231, 725); // quarter page size
-  }
-}
-
-
-
-/*////////////////////////////////////////
  SETUP
  ////////////////////////////////////////*/
 
 void setup() {
+  size(1231, 725);
   rows = 3;
   cols = 7;
   setGridVars();
   renderWall();
-
-  rSn = 47; // 29, 18; // not getting used in this sketch
-  // randomSeed(rSn);
 
   println("setup done: " + nf(millis() / 1000.0, 1, 2));
 }
@@ -74,7 +51,9 @@ void setup() {
  DRAW
  ////////////////////////////////////////*/
 
-void draw() { // nothing happening in the draw function. Leaving it here out of habit.
+void draw() { 
+  // Typically, this is where a lot of the update code would go for most sketches. Not using 
+  // draw() at all for this sketch. Leaving it in as an indicator that it isn't in fact being used.
 }
 
 
@@ -121,7 +100,7 @@ void renderWall() {
     tileX = i*boxW;
 
     for (int j = 0; j < rows; j++) {
-      println("\nRxC: "+ j + 'x' + i);
+      println("\nRxC: "+ (1+j) + 'x' + (1+i));
       tileY = j*boxH;
 
       // pre-calculate arc coords to use in case #s 8-11
@@ -279,12 +258,11 @@ void keyPressed() {
 
 String generateSaveImgFileName(String fileType) {
   String fileName;
-  String outputDir = "out/";
+  String outputDir = "output/";
   String sketchName = getSketchName() + "-";
-  String randomSeedNum = "rS" + rSn;
   String colXRowCount = rows+"x"+cols+"-";
   String dateTimeStamp = "" + year() + nf(month(), 2) + nf(day(), 2) + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-  fileName = outputDir + sketchName + colXRowCount + dateTimeStamp + randomSeedNum + fileType;
+  fileName = outputDir + sketchName + colXRowCount + dateTimeStamp + fileType;
   return fileName;
 }
 
