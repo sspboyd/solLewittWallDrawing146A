@@ -1,37 +1,39 @@
-// Recreating Sol Lewitt's Wall Drawing 146A
+// Recreating Sol Lewitt's Wall Drawing 146A (1972)
+// "All two-part combinations of blue arcs from corners 
+// and sides, and blue straight, not straight, and broken 
+// lines."
 // http://www.massmoca.org/lewitt/walldrawing.php?id=146A
 
-// Wall Drawing #146 (1972)
-// All two-part combinations of blue arcs from corners 
-// and sides, and blue straight, not straight, and broken 
-// lines. 
+// Keyboard UI
+// "S" = screencap to .jpg
+// "u" = refresh wall with new drawing
+// Arrow keys up/down will add/remove rows
+// Arrow keys left/right will remove/add columns
 
 
 //Declare Globals
 final float PHI = 0.618033989;
 int rSn; // randomSeed number. put into var so can be saved in file name. defaults to 47
-
 boolean PDFOUT = false; // controls if the wall output will be saved to a PDF
-
-// Declare Positioning Variables
-float margin;
-float PLOT_X1, PLOT_X2, PLOT_Y1, PLOT_Y2, PLOT_W, PLOT_H;
-
-int rows, cols;
-color groundClr, figureClr;
-int boxH, boxW;
-int horizDashCount = 7;
-int angledDashCount = 13;
-float lineLen, lineBuff;
-float angLineLen, angLineBuff;
-int angDW; // was -> totalAngledLineLen
-
-PGraphics angDashes;
 
 // Physical Room Dimensions
 float wallH = 96.75;
 float wallW = 152;
 // 37.5x83 - door size in inches
+
+color groundClr = #2756C9;
+color figureClr = color(252, 252, 240);
+int rows, cols;
+int boxH, boxW;
+
+int horizDashCount = 7;
+int angledDashCount = 13;
+
+float lineLen, lineBuff;
+
+PGraphics angDashes;
+float angLineLen, angLineBuff;
+int angDW; // was -> totalAngledLineLen
 
 
 
@@ -48,6 +50,8 @@ void settings() {
   }
 }
 
+
+
 /*////////////////////////////////////////
  SETUP
  ////////////////////////////////////////*/
@@ -58,10 +62,21 @@ void setup() {
   setGridVars();
   renderWall();
 
-  rSn = 47; // 29, 18;
+  rSn = 47; // 29, 18; // not getting used in this sketch
   // randomSeed(rSn);
+
   println("setup done: " + nf(millis() / 1000.0, 1, 2));
 }
+
+
+
+/*////////////////////////////////////////
+ DRAW
+ ////////////////////////////////////////*/
+
+void draw() { // nothing happening in the draw function. Leaving it here out of habit.
+}
+
 
 
 void setGridVars() {
@@ -75,10 +90,11 @@ void setGridVars() {
   angLineLen = angDW/(angledDashCount + ((angledDashCount-1) * 0.25));
   angLineBuff = angLineLen * 0.25;
 
+  // Create angled dash image on trasparent background for use in cases #s 14 & 15
   angDashes = createGraphics(angDW, angDW);
   angDashes.beginDraw();
-  angDashes.background(0, 0);
-  angDashes.stroke(252, 252, 240);
+  angDashes.background(0, 0); // important that this be transparent
+  angDashes.stroke(figureClr); // off white - pearl colour
   angDashes.strokeWeight(3);
   for (int i=0; i<angledDashCount+1; i++) {
     float lineX = lerp(0, (angDW+angLineBuff), i/(angledDashCount*1.0));
@@ -93,35 +109,39 @@ void renderWall() {
   println("Rows: "+rows + ". Cols: "+cols);
   println("boxH in inches: "+ wallH/rows);
 
-  int tileId1=0;
-  background(#2756C9); // blue
-  stroke(252, 252, 240); // pearl
+  background(groundClr); // blue
+  stroke(figureClr); // pearl
+  strokeWeight(3);
   noFill();
 
+  int tileId1 = -1; // var to track id of first tile number so that we can check for two same tiles in a box
   int tileX, tileY;
+
   for (int i = 0; i < cols; i++) {
     tileX = i*boxW;
 
     for (int j = 0; j < rows; j++) {
-      println("\nRxC: "+ i + 'x' + j);
+      println("\nRxC: "+ j + 'x' + i);
       tileY = j*boxH;
+
+      // pre-calculate arc coords to use in case #s 8-11
+      float arcOrigX = 0;
+      float arcOrigY = 0 + sqrt(pow(boxW, 2) - pow(boxW / 2, 2)); // yay for Pythagorean theorem
+      float leftArc = (PI + HALF_PI - (HALF_PI / 3));
+      float rightArc = (PI + HALF_PI + (HALF_PI / 3));
+
       pushMatrix();
       translate(tileX, tileY);
-      strokeWeight(3);
-
       for (int k = 0; k < 2; k++) {
+        // get two unique tile ids
         int tileId = int(random(0, 16));
         if (k==0) tileId1=tileId;
-        for (int l = 0; l < 10; l++) {
+        for (int l = 0; l < 10; l++) { // janky, but running this 10x to (hopefully) ensure a different tile id. 1/10E10 chance
           if (k==1 && tileId1 == tileId) tileId = int(random(0, 16));
         }
+        println("tileId"+k+": "+tileId);
 
-        println("tileId: "+tileId+". ");
-        float arcOrigY = 0 + sqrt(pow(boxW, 2) - pow(boxW / 2, 2)); // yay for Pythagorean theorem.
-        float arcOrigX = 0;
-        float leftArc = (PI + HALF_PI - (HALF_PI / 3));
-        float rightArc = (PI + HALF_PI + (HALF_PI / 3));
-
+        // render a line based on a tileId
         switch(tileId) {
         case 0: 
           line(0, boxH/2, boxW, boxH/2); // horiz line
@@ -150,7 +170,6 @@ void renderWall() {
         case 8: // top curve
           pushMatrix();
           translate(boxW/2, boxH/2);
-          // rotate(PI + HALF_PI);
           arc(arcOrigX, arcOrigY, boxW * 2, boxH * 2, leftArc, rightArc);
           popMatrix();
           break;
@@ -177,9 +196,7 @@ void renderWall() {
           break;
         case 12: // horiz dashed line
           for (int n=0; n < horizDashCount; n++) {
-            // println("n: "+n);
             float lineX = lerp(0, (boxW+lineBuff), n/(horizDashCount*1.0));
-            // println("lineX: "+lineX);
             line(lineX, boxW/2, lineX+lineLen, boxW/2);
           }
           break;
@@ -188,11 +205,8 @@ void renderWall() {
           translate(boxW/2, boxH/2);
           rotate(HALF_PI);
           translate(-boxW/2, -boxH/2);
-
           for (int n=0; n < horizDashCount; n++) {
-            // println("n: "+n);
             float lineX = lerp(0, (boxW+lineBuff), n/(horizDashCount*1.0));
-            // println("lineX: "+lineX);
             line(lineX, boxW/2, lineX+lineLen, boxW/2);
           }
           popMatrix();
@@ -203,7 +217,6 @@ void renderWall() {
           rotate(HALF_PI/2);
           image(angDashes, -angDW/2, -angDW/2);
           popMatrix();
-
           break;
         case 15: // angled (/) dashed line
           pushMatrix();
@@ -211,7 +224,6 @@ void renderWall() {
           rotate(HALF_PI + PI/4);
           image(angDashes, -angDW/2, -angDW/2);
           popMatrix();
-
           break;
         }
       }
@@ -227,11 +239,14 @@ void renderWall() {
   rect(6, height, doorW, -doorH);
 }
 
-void draw() {
-}
+
+
+/*////////////////////////////////////////
+ Keyboard UI
+ ////////////////////////////////////////*/
 
 void keyPressed() {
-  if (key == 'S') screenCap(".tif");
+  if (key == 'S') screenCap(".jpg");
   if (key == 'u') renderWall();
 
   if (key == CODED) {
@@ -256,14 +271,20 @@ void keyPressed() {
   }
 }
 
+
+
+/*////////////////////////////////////////
+ Save Image Output
+ ////////////////////////////////////////*/
+
 String generateSaveImgFileName(String fileType) {
   String fileName;
-  // save functionality in here
   String outputDir = "out/";
   String sketchName = getSketchName() + "-";
-  String randomSeedNum = "rS" + rSn + "-";
+  String randomSeedNum = "rS" + rSn;
+  String colXRowCount = rows+"x"+cols+"-";
   String dateTimeStamp = "" + year() + nf(month(), 2) + nf(day(), 2) + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-  fileName = outputDir + sketchName + dateTimeStamp + randomSeedNum + fileType;
+  fileName = outputDir + sketchName + colXRowCount + dateTimeStamp + randomSeedNum + fileType;
   return fileName;
 }
 
