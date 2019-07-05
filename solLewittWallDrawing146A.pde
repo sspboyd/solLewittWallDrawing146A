@@ -241,10 +241,10 @@ void keyPressed() {
       rows++;
       updateWall = true;
     } else if (keyCode == DOWN) {
-      if (rows>0) rows--;
+      if (rows>1) rows--;
       updateWall = true;
     } else if (keyCode == LEFT) {
-      if (cols>0) cols--;
+      if (cols>1) cols--;
       updateWall = true;
     } else if (keyCode == RIGHT) {
       cols++;
