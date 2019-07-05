@@ -14,6 +14,7 @@
 float wallH = 96.75;
 float wallW = 152;
 // 37.5x83 - door size in inches
+boolean showDoor = true;
 
 color groundClr = #2756C9;
 color figureClr = color(252, 252, 240);
@@ -211,11 +212,13 @@ void renderWall() {
   }
 
   // Draw the door
-  fill(255);
-  noStroke();
-  float doorW = 37.5/wallW*width;
-  float doorH = 87.0/wallH*height;
-  rect(6, height, doorW, -doorH);
+  if (showDoor) {
+    fill(255);
+    noStroke();
+    float doorW = 37.5/wallW*width;
+    float doorH = 87.0/wallH*height;
+    rect(6, height, doorW, -doorH);
+  }
 }
 
 
@@ -227,6 +230,10 @@ void renderWall() {
 void keyPressed() {
   if (key == 'S') screenCap(".jpg");
   if (key == 'u') renderWall();
+  if (key == 'd') { 
+    showDoor = (showDoor) ? false : true;
+    renderWall();
+  }
 
   if (key == CODED) {
     boolean updateWall = false;
