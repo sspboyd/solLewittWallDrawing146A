@@ -4,7 +4,7 @@
 
 This project attempts to interpret and create a version of Sol LeWitt's Wall Drawing #146A in code, Processing code to be specific. The purpose of this project is to create a program that will produce any number of versions of the wall drawing as a proof-of-concept for how the wall drawing would look in a new office space.
 
-## Sol Le Witt. American artist, 1928-2007
+## Sol LeWitt. American artist, 1928-2007
 
 Sol LeWitt was a prolific American artist who came to the public's attention in the 1960s for his wall drawings and structural artworks. He is considered a leader of the Minimalist and Conceptual art movements. 
 
@@ -29,10 +29,26 @@ Lastly, I chose to deviate from the instructions again to have a blue wall with 
 ## Program output examples.
 
 ![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-20150709014431rS47-.jpeg)
+
 ![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-20150709014358rS47-.jpeg)
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-2x5-20190705125057.jpg)
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-4x7-20190705153757.jpg)
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-15x26-20190705124842.jpg)
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-45x77-20190705124923.jpg)
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-72x123-20190705153608.jpg)
 
 ## Early examples with bugs lots of bugs
 
 ![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing-20150604015132rS47-.jpeg)
+
+
+![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing146A-4x7-20190705153813.jpg)
 ![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing-20150604181049rS47-.jpeg)
+
+
 ![Sketch output showing interpretation of Wall Drawing #146A in code](https://raw.githubusercontent.com/sspboyd/solLewittWallDrawing146A/master/public/images/solLewittWallDrawing-20150604015803rS47-.jpeg)
