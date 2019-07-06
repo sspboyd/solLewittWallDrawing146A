@@ -32,7 +32,6 @@ web-export/
 out/
 savedImages/
 srcFiles/
-*.jpg
 *.JPG
 *.tiff
 *.TIFF
